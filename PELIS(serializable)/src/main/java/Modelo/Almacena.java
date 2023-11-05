@@ -6,12 +6,13 @@
 package Modelo;
 import Modelo.Cinta;
 import Modelo.Pelicula;
+import java.io.Serializable;
 
 /**
  *
  * @author Zedeon
  */
-public class Almacena {
+public class Almacena implements Serializable {
     public Cinta una_cinta;
     public Pelicula una_peli;
     public String una_fecha;

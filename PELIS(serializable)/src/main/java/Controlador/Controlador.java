@@ -67,7 +67,7 @@ public class Controlador {
 
         escribirTiendaserializable();
         escribirClientesSerializables();
-        EscribirCintaSerializable();
+        escribirCintaSerializable();
 
         escribirPeliculasAXML();
 
@@ -84,35 +84,29 @@ public class Controlador {
 
     }
 
-
 public void escribirClientesSerializables() {
+    String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\ClientesSerializable.xml";
     try {
-        // Ruta del archivo XML de clientes serializables
-        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\ClientesSerializable.xml";
+        // Inicializa la lista de clientes con algunos datos de ejemplo aquí
+        this.clientes = new ArrayList<>();
+        
+        // Crear y agregar objetos Cliente con datos de ejemplo
+        Cliente cliente1 = new Cliente("123456789A", "NombreCliente1", "1234567890", null, null);
+        Cliente cliente2 = new Cliente("987654321B", "NombreCliente2", "9876543210", null, null);
+        
+        this.clientes.add(cliente1);
+        this.clientes.add(cliente2);
 
-        // Crear una instancia de ObjectOutputStream para escribir objetos serializables
+        // Utiliza un ObjectOutputStream para escribir la lista de objetos Cliente
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo));
 
-        // Crear objetos de ejemplo
-        Cliente cliente = new Cliente("123456789A", "FRANCISCO", "6524747", new ArrayList<Alquila>(), new ArrayList<Tienda>());
-        Tienda tienda = new Tienda("T01", "Tienda1", "Dirección de la Tienda1", new ArrayList<Cliente>());
-        Alquila alquiler = new Alquila("123456789A", "03/11/23", "CT01");
+        // Escribe la lista de clientes en el archivo
+        oos.writeObject(this.clientes);
 
-        // Agregar la tienda al cliente
-        cliente.getTiendas_del_cliente().add(tienda);
-
-        // Agregar el cliente a la tienda
-        tienda.getClientes().add(cliente);
-
-        // Escribir objetos en el archivo XML
-        oos.writeObject(cliente);
-        oos.writeObject(tienda);
-        oos.writeObject(alquiler);
-
-        // Cerrar el flujo de ObjectOutputStream
+        // Cierra el ObjectOutputStream
         oos.close();
 
-        System.out.println("Objetos serializables de clientes escritos en el archivo XML.");
+        System.out.println("Datos de clientes serializables escritos en el archivo.");
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -348,45 +342,28 @@ public void agregarPeliculaACintaXML(Cinta cinta, Pelicula pelicula, String ruta
 
 
  
-    public void EscribirCintaSerializable() {
-        try {
-            File archivoXML = new File("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\CintasSerializable.xml");
+ public void escribirCintaSerializable() {
+    try {
+        // Ruta del archivo para almacenar objetos serializables
+        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\CintasSerializable.xml";
 
-            // Verificar si el archivo XML ya existe
-            if (!archivoXML.exists()) {
-                // Si el archivo no existe, crea la estructura XML completa
-                XMLOutputFactory xmlFactory = XMLOutputFactory.newInstance();
-                XMLStreamWriter xmlWriter = xmlFactory.createXMLStreamWriter(new FileOutputStream(archivoXML), "UTF-8");
+        // Crear un ObjectOutputStream para escribir objetos serializables
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo));
 
-                // Escribir la estructura XML
-                xmlWriter.writeStartDocument("UTF-8", "1.0");
-                xmlWriter.writeStartElement("Cintas");
+        // Crear una instancia de la clase Cinta
+        Cinta cinta = new Cinta("CT01", "DVD", new Pelicula("MV01", "Interestelar", "Ciencia Ficción", "07/11/2014", null));
 
-                // Aquí puedes escribir los objetos de Cinta en el archivo XML
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(archivoXML));
+        // Escribir la instancia en el archivo
+        oos.writeObject(cinta);
 
-                // Crear una instancia de la clase Cinta
-                Cinta cinta = new Cinta("CT01", "DVD", new Pelicula("MV01", "Interestelar", "Ciencia Ficcion", "07/11/2014",null));
+        // Cerrar el ObjectOutputStream
+        oos.close();
 
-                // Escribir la instancia en el archivo
-                objectOutputStream.writeObject(cinta);
-                objectOutputStream.close();
-
-                // Cerrar elementos y el archivo
-                xmlWriter.writeEndElement(); // Cerrar etiqueta "Cintas"
-                xmlWriter.writeEndDocument();
-                xmlWriter.flush();
-                xmlWriter.close();
-
-                System.out.println("Archivo XML de cintas serializable creado exitosamente.");
-            } else {
-                // Si el archivo ya existe, no se sobrescribe
-                System.out.println("El archivo CintasSerializable.xml ya existe. No se sobrescribe.");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.println("Objeto serializable de cinta escrito en el archivo.");
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
     
 public void agregarClienteAtiendaXML(Cliente cliente) {
     try {
@@ -1077,36 +1054,35 @@ public void cargarTiendasserializable(String rutaArchivo) {
         // Utiliza un ObjectInputStream para deserializar los objetos de las tiendas
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo));
 
-        // El archivo XML se carga como un objeto que contiene las tiendas
-        ArrayList<Tienda> tiendasCargadas = (ArrayList<Tienda>) ois.readObject();
+        // Lee el objeto Tienda desde el archivo
+        Tienda tiendaCargada = (Tienda) ois.readObject();
 
         // Cierra el ObjectInputStream
         ois.close();
 
-        // Ahora tiendasCargadas contiene las tiendas y sus datos
-        // Asigna tiendasCargadas a tu lista de tiendas
-        this.tiendas = tiendasCargadas;
+        // Agrega la tienda cargada a tu lista de tiendas
+        this.tiendas.add(tiendaCargada);
 
         System.out.println("Tiendas cargadas desde el archivo XML.");
     } catch (Exception e) {
         e.printStackTrace();
     }
-}
+}   
+
 
 
 public void cargarDatosClientesSerializable(String rutaArchivo) {
     try {
-        // Utiliza un ObjectInputStream para deserializar los objetos de los clientes
+        // Utiliza un ObjectInputStream para deserializar la lista de objetos Cliente
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo));
 
-        // El archivo XML se carga como un objeto que contiene la lista de clientes
+        // Lee la lista de objetos Cliente desde el archivo
         ArrayList<Cliente> clientesCargados = (ArrayList<Cliente>) ois.readObject();
 
         // Cierra el ObjectInputStream
         ois.close();
 
-        // Ahora clientesCargados contiene la lista de clientes y sus datos
-        // Asigna clientesCargados a tu lista de clientes
+        // Asigna la lista de clientes cargados a tu lista de clientes
         this.clientes = clientesCargados;
 
         System.out.println("Datos de clientes cargados desde el archivo XML.");
@@ -1117,31 +1093,32 @@ public void cargarDatosClientesSerializable(String rutaArchivo) {
 
 
 
+
 public void cargarDatoCintasSerializable(String rutaArchivo) {
     try {
+        
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        // El archivo XML se carga como un objeto que contiene la lista de cintas
-        ArrayList<Cinta> cintasCargadas = (ArrayList<Cinta>) ois.readObject();
+
+      
+        Cinta cintaCargada = (Cinta) ois.readObject();
+
+        // Cierra el ObjectInputStream
         ois.close();
 
-        // Ahora cintasCargadas contiene la lista de cintas y sus datos
-        // Asigna cintasCargadas a tu lista de cintas
-        this.cintas = cintasCargadas;
-
-        System.out.println("Datos de cintas cargados desde el archivo XML.");
-    } catch (Exception e) {
+   
+        System.out.println("Datos de cintas cargados desde el archivo serializable.");
+    } catch (IOException | ClassNotFoundException e) {
         e.printStackTrace();
     }
 }
 public void cargarDatosPeliculasSerializable(String rutaArchivo) {
     try {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(rutaArchivo));
-        // El archivo XML se carga como un objeto que contiene la lista de películas
+
         ArrayList<Pelicula> peliculasCargadas = (ArrayList<Pelicula>) ois.readObject();
         ois.close();
 
-        // Ahora peliculasCargadas contiene la lista de películas y sus datos
-        // Asigna peliculasCargadas a tu lista de películas
+  
         this.peliculas = peliculasCargadas;
 
         System.out.println("Datos de películas cargados desde el archivo XML.");
@@ -1150,7 +1127,7 @@ public void cargarDatosPeliculasSerializable(String rutaArchivo) {
     }
 }
 
-// Utilidad para obtener el contenido de un elemento en un nodo
+
 private String getElementTextContent(Element element, String tagName) {
     Node node = element.getElementsByTagName(tagName).item(0);
     return (node != null) ? node.getTextContent() : "N/A";
