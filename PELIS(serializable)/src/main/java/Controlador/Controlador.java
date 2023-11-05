@@ -73,10 +73,10 @@ public class Controlador {
 
         System.out.println("entre a escribir");
 
-        cargarTiendasserializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\Tiendas.xml");
-        cargarDatosClientesSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\Clientes.xml");
-        cargarDatoCintasSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\Cintas.xml");
-        cargarDatosPeliculasSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\Peliculas.xml");
+        cargarTiendasserializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\TiendasSerializable.xml");
+        cargarDatosClientesSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\ClientesSerializable.xml");
+        cargarDatoCintasSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\CintasSerializable.xml");
+        cargarDatosPeliculasSerializable("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\PeliculasSerializable.xml");
 
         System.out.println("cintas del controlador tiene " + cintas.size());
         this.nueva_ventana = new Ventana1(tiendas, this, clientes, cintas,peliculas);
@@ -88,7 +88,7 @@ public class Controlador {
 public void escribirClientesSerializables() {
     try {
         // Ruta del archivo XML de clientes serializables
-        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\ClientesSerializable.xml";
+        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\ClientesSerializable.xml";
 
         // Crear una instancia de ObjectOutputStream para escribir objetos serializables
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo));
@@ -350,7 +350,7 @@ public void agregarPeliculaACintaXML(Cinta cinta, Pelicula pelicula, String ruta
  
     public void EscribirCintaSerializable() {
         try {
-            File archivoXML = new File("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\CintasSerializable.xml");
+            File archivoXML = new File("C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\CintasSerializable.xml");
 
             // Verificar si el archivo XML ya existe
             if (!archivoXML.exists()) {
@@ -444,7 +444,7 @@ public void agregarClienteAtiendaXML(Cliente cliente) {
 public void escribirTiendaserializable() {
         try {
             // Ruta del archivo XML de tiendas
-            String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\TiendasSerializable.xml";
+            String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\TiendasSerializable.xml";
 
             // Crear una instancia de ObjectOutputStream para escribir objetos serializables
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaArchivo));
@@ -540,7 +540,7 @@ public void agregarPeliculaAXML(Pelicula pelicula) {
 
         public void escribirPeliculasAXML() {
     try {
-        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\TIENDA_PELIS\\src\\main\\PeliculasSerializable.xml";
+        String rutaArchivo = "C:\\Users\\Zedeon\\Documents\\2DAM\\AD\\PELIS(serializable)\\src\\main\\PeliculasSerializable.xml";
         File archivoXML = new File(rutaArchivo);
 
         if (!archivoXML.exists()) {
@@ -550,20 +550,14 @@ public void agregarPeliculaAXML(Pelicula pelicula) {
             xmlWriter.writeStartDocument("UTF-8", "1.0");
             xmlWriter.writeStartElement("Peliculas");
 
-            // Aquí puedes escribir los objetos de Pelicula en el archivo XML
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(archivoXML));
 
-            // Crear una instancia de la clase Pelicula
             Pelicula pelicula = new Pelicula("MV01", "Interestelar", "Ciencia Ficcion", "7/11/2014",null);
 
-            // Escribir la instancia en el archivo
             objectOutputStream.writeObject(pelicula);
             objectOutputStream.close();
 
-            // También puedes hacer lo mismo para objetos de la clase Cinta
-
-            // Cerrar elementos y el archivo
-            xmlWriter.writeEndElement(); // Cerrar etiqueta "Peliculas"
+            xmlWriter.writeEndElement(); 
             xmlWriter.writeEndDocument();
             xmlWriter.close();
 

@@ -6,12 +6,13 @@
 package Modelo;
 import Modelo.Cinta;
 import Modelo.Cliente;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  *
  * @author Zedeon
  */
-public class Alquila {
+public class Alquila implements Serializable {
     private String Dni_clt;
     private String Fecha;
     private  String id_cinta; 
